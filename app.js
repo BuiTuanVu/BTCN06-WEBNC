@@ -4,7 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var usersRouter = require('./routes/users');
-var indexRouter = require('./routes/index')
+
 const bodyParser = require('body-parser')
 const passport = require('passport');
 
@@ -35,7 +35,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/users', usersRouter);
-app.use('/', passport.authenticate('jwt', { session: false }), indexRouter);
+app.use(passport.initialize());
+
+
+app.get('/me', passport.authenticate('jwt', { session: false }), (req, res) => {
+  res.send(req.user)
+});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

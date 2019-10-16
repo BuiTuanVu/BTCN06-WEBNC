@@ -35,9 +35,8 @@ passport.use(new JWTStrategy({
     secretOrKey: 'wow'
 },
     function (jwtPayload, cb) {
-
         //find the user in db if needed
-        return User.findById({ id: jwtPayload.id })
+        return User.findOne({ name: jwtPayload.user.name })
             .then(user => {
                 return cb(null, user);
             })

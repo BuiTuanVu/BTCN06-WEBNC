@@ -16,6 +16,9 @@ router.post('/register', async (req, res, next) => {
   const nameExist = await User.findOne({ name: req.body.name });
   if (nameExist) return res.status(400).send('Account already exist');
 
+  //Hash password
+
+
   const { name, password } = req.body;
   const user = new User({ name, password });
   try {
@@ -25,9 +28,6 @@ router.post('/register', async (req, res, next) => {
     res.status(400).send(err);
   }
 })
-
-
-
 
 
 /* POST login. */
